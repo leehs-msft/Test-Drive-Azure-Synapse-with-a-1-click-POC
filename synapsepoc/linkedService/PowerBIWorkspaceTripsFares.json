@@ -6,6 +6,7 @@
 		"typeProperties": {
 			"workspaceID": "fb363129-b0e5-478e-9d8d-d47e9b0f46e9",
 			"tenantID": "72f988bf-86f1-41af-91ab-2d7cd011db47"
-		}
+		},
+		"description": "Link to workspace LHS Synapse Demo"
 	}
 }
