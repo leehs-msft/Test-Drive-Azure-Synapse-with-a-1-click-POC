@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "37ed5570-5e37-4741-9da0-c90021f487b6"
+				"spark.autotune.trackingId": "5da745d9-fe82-4474-b166-7605a6ec73e8"
 			}
 		},
 		"metadata": {
@@ -31,10 +31,10 @@
 				"name": "python"
 			},
 			"a365ComputeOptions": {
-				"id": "/subscriptions/b9d83e2f-1bda-45b0-836d-b30aeacd21e1/resourceGroups/rg-asda-central/providers/Microsoft.Synapse/workspaces/leewzfys2o6lhnycpocws1/bigDataPools/ws1sparkpool1",
+				"id": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-synapse-ds/providers/Microsoft.Synapse/workspaces/lhs3sh4zs45dno2gpocws1/bigDataPools/ws1sparkpool1",
 				"name": "ws1sparkpool1",
 				"type": "Spark",
-				"endpoint": "https://leewzfys2o6lhnycpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
+				"endpoint": "https://lhs3sh4zs45dno2gpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
 				"auth": {
 					"type": "AAD",
 					"authResource": "https://dev.azuresynapse.net"
