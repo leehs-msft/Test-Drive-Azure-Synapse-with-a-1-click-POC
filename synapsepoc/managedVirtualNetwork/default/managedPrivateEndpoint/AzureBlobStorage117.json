@@ -1,0 +1,7 @@
+{
+	"name": "AzureBlobStorage117",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-datalake/providers/Microsoft.Storage/storageAccounts/adlsleesdatalake",
+		"groupId": "blob"
+	}
+}
