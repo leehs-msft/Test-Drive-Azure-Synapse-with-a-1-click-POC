@@ -1,5 +1,5 @@
 {
-	"name": "Notebook 1",
+	"name": "Create default db",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e07a4e00-fed0-43df-a508-b7f5d20cb882"
+				"spark.autotune.trackingId": "9c12108b-ab52-426e-9734-4b31d8c79555"
 			}
 		},
 		"metadata": {
