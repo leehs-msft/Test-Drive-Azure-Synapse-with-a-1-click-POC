@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e2e1dde9-2012-4e02-907f-c1e7ce00bbcb"
+				"spark.autotune.trackingId": "f3a7f01f-434f-4a01-b0d1-c910f489d43e"
 			}
 		},
 		"metadata": {
@@ -170,9 +170,9 @@
 					"   ORDER BY PassengerCount\r\n",
 					"\"\"\") \r\n",
 					"display(df)\r\n",
-					"df.write.saveAsTable(\"nyctaxi.passengercountstats\")"
+					"df.write.mode(\"overwrite\").saveAsTable(\"nyctaxi.passengercountstats\")"
 				],
-				"execution_count": 13
+				"execution_count": 14
 			}
 		]
 	}

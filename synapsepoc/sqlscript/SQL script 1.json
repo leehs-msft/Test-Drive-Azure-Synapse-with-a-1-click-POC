@@ -2,12 +2,12 @@
 	"name": "SQL script 1",
 	"properties": {
 		"content": {
-			"query": "select top 10 * from dbo.table",
+			"query": "select top 10 * from nyctaxi.nyctaxi.trip",
 			"metadata": {
 				"language": "sql"
 			},
 			"currentConnection": {
-				"databaseName": "master",
+				"databaseName": "default",
 				"poolName": "Built-in"
 			},
 			"resultLimit": 5000
