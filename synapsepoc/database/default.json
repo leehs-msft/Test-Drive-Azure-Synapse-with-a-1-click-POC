@@ -1,0 +1,22 @@
+{
+	"name": "default",
+	"properties": {
+		"Name": "default",
+		"EntityType": "DATABASE",
+		"Origin": {
+			"Type": "SPARK"
+		},
+		"Properties": {
+			"IsSyMSCDMDatabase": true
+		},
+		"Source": {
+			"Provider": "ADLS",
+			"Location": "abfss://dlslhspocfs1@lhs3sh4zs45dno2gpoc.dfs.core.windows.net/default",
+			"Properties": {
+				"FormatType": "csv",
+				"LinkedServiceName": "lhs3sh4zs45dno2gpocws1-WorkspaceDefaultStorage"
+			}
+		}
+	},
+	"type": "DATABASE"
+}
