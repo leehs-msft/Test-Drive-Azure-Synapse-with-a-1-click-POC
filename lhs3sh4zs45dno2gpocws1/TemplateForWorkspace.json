@@ -41,7 +41,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('workspaceName'), '/ws1sparkpool1')]",
+			"name": "[concat(parameters('workspaceName'), '/ws1sparklge')]",
 			"type": "Microsoft.Synapse/workspaces/bigDataPools",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -1344,20 +1344,20 @@
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
-					"referenceName": "ws1sparkpool1",
+					"referenceName": "ws1sparklge",
 					"type": "BigDataPoolReference"
 				},
 				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
+					"driverMemory": "112g",
+					"driverCores": 16,
+					"executorMemory": "112g",
+					"executorCores": 16,
 					"numExecutors": 2,
 					"conf": {
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "97ef0d1f-01ee-44fb-859f-2a13ead9251e"
+						"spark.autotune.trackingId": "eca7f93f-5106-4c2f-82fe-b78ddf866c36"
 					}
 				},
 				"metadata": {
@@ -1371,18 +1371,19 @@
 						"name": "python"
 					},
 					"a365ComputeOptions": {
-						"id": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-synapse-ds/providers/Microsoft.Synapse/workspaces/lhs3sh4zs45dno2gpocws1/bigDataPools/ws1sparkpool1",
-						"name": "ws1sparkpool1",
+						"id": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-synapse-ds/providers/Microsoft.Synapse/workspaces/lhs3sh4zs45dno2gpocws1/bigDataPools/ws1sparklge",
+						"name": "ws1sparklge",
 						"type": "Spark",
-						"endpoint": "https://lhs3sh4zs45dno2gpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
+						"endpoint": "https://lhs3sh4zs45dno2gpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparklge",
 						"auth": {
 							"type": "AAD",
 							"authResource": "https://dev.azuresynapse.net"
 						},
-						"sparkVersion": "2.4",
-						"nodeCount": 5,
-						"cores": 8,
-						"memory": 56
+						"sparkVersion": "3.2",
+						"nodeCount": 10,
+						"cores": 16,
+						"memory": 112,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -1403,6 +1404,7 @@
 					},
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from azureml.opendatasets import NycTlcYellow\r\n",
 							"from datetime import datetime\r\n",
@@ -1415,7 +1417,7 @@
 							"nyc_tlc_df.info()"
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -1438,7 +1440,7 @@
 							"display(sampled_df.head(5))"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 2
 					},
 					{
 						"cell_type": "markdown",
@@ -1500,7 +1502,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -1527,7 +1529,7 @@
 							"filtered_df.info()"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 4
 					},
 					{
 						"cell_type": "markdown",
@@ -1561,7 +1563,7 @@
 							"spark_df.write.mode(\"overwrite\").saveAsTable(\"default.NYC_Taxi\")"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 5
 					}
 				]
 			},
@@ -1920,7 +1922,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fd107ac4-12ee-4ca1-95a1-7e823e67c8b4"
+						"spark.autotune.trackingId": "eb8d64e4-70ac-43c4-a020-29e15ce917ad"
 					}
 				},
 				"metadata": {
@@ -2072,18 +2074,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/lhs3sh4zs45dno2gpocws1p1')]",
-			"type": "Microsoft.Synapse/workspaces/sqlPools",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"collation": "SQL_Latin1_General_CP1_CI_AS",
-				"maxSizeBytes": 263882790666240,
-				"annotations": []
-			},
-			"dependsOn": [],
-			"location": "northeurope"
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/ws1sparkpool1')]",
 			"type": "Microsoft.Synapse/workspaces/bigDataPools",
 			"apiVersion": "2019-06-01-preview",
@@ -2109,11 +2099,60 @@
 			"location": "northeurope"
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ws1sparklge')]",
+			"type": "Microsoft.Synapse/workspaces/bigDataPools",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"autoPause": {
+					"enabled": true,
+					"delayInMinutes": 15
+				},
+				"autoScale": {
+					"enabled": true,
+					"maxNodeCount": 10,
+					"minNodeCount": 3
+				},
+				"nodeCount": 10,
+				"nodeSize": "Large",
+				"nodeSizeFamily": "MemoryOptimized",
+				"sparkVersion": "3.2",
+				"isComputeIsolationEnabled": false,
+				"sessionLevelPackagesEnabled": false,
+				"annotations": []
+			},
+			"dependsOn": [],
+			"location": "northeurope"
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/lhs3sh4zs45dno2gpocws1p1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlPools",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"collation": "SQL_Latin1_General_CP1_CI_AS",
+				"maxSizeBytes": 263882790666240,
+				"annotations": []
+			},
+			"dependsOn": [],
+			"location": "northeurope"
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/default')]",
 			"type": "Microsoft.Synapse/workspaces/managedVirtualNetworks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/default/AzureBlobStorage117')]",
+			"type": "Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"privateLinkResourceId": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-datalake/providers/Microsoft.Storage/storageAccounts/adlsleesdatalake",
+				"groupId": "blob"
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/managedVirtualNetworks/default')]"
+			]
 		}
 	]
 }
