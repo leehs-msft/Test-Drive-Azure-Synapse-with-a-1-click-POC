@@ -4,7 +4,7 @@
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
-			"referenceName": "ws1sparklge",
+			"referenceName": "ws1sparkpool1",
 			"type": "BigDataPoolReference"
 		},
 		"sessionProperties": {
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5f9709cb-a0f5-480a-95ef-6466e2d6acc3"
+				"spark.autotune.trackingId": "e2e1dde9-2012-4e02-907f-c1e7ce00bbcb"
 			}
 		},
 		"metadata": {
@@ -31,18 +31,18 @@
 				"name": "python"
 			},
 			"a365ComputeOptions": {
-				"id": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-synapse-ds/providers/Microsoft.Synapse/workspaces/lhs3sh4zs45dno2gpocws1/bigDataPools/ws1sparklge",
-				"name": "ws1sparklge",
+				"id": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-synapse-ds/providers/Microsoft.Synapse/workspaces/lhs3sh4zs45dno2gpocws1/bigDataPools/ws1sparkpool1",
+				"name": "ws1sparkpool1",
 				"type": "Spark",
-				"endpoint": "https://lhs3sh4zs45dno2gpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparklge",
+				"endpoint": "https://lhs3sh4zs45dno2gpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
 				"auth": {
 					"type": "AAD",
 					"authResource": "https://dev.azuresynapse.net"
 				},
-				"sparkVersion": "3.2",
-				"nodeCount": 10,
-				"cores": 16,
-				"memory": 112,
+				"sparkVersion": "2.4",
+				"nodeCount": 5,
+				"cores": 8,
+				"memory": 56,
 				"automaticScaleJobs": false
 			},
 			"sessionKeepAliveTimeout": 30
@@ -63,7 +63,7 @@
 					"df = spark.read.load('abfss://dlslhspocfs1@lhs3sh4zs45dno2gpoc.dfs.core.windows.net/user/NYCTripSmall.parquet', format='parquet')\r\n",
 					"display(df.limit(10))"
 				],
-				"execution_count": 1
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -88,7 +88,7 @@
 					"df.printSchema()\r\n",
 					""
 				],
-				"execution_count": 2
+				"execution_count": 10
 			},
 			{
 				"cell_type": "code",
@@ -113,7 +113,7 @@
 					"spark.sql(\"CREATE DATABASE IF NOT EXISTS nyctaxi\")\r\n",
 					"df.write.mode(\"overwrite\").saveAsTable(\"nyctaxi.trip\")"
 				],
-				"execution_count": 3
+				"execution_count": 11
 			},
 			{
 				"cell_type": "code",
@@ -139,7 +139,7 @@
 					"df = spark.sql(\"SELECT * FROM nyctaxi.trip\")\r\n",
 					"display(df.limit(10))"
 				],
-				"execution_count": 4
+				"execution_count": 12
 			},
 			{
 				"cell_type": "code",
@@ -172,7 +172,7 @@
 					"display(df)\r\n",
 					"df.write.saveAsTable(\"nyctaxi.passengercountstats\")"
 				],
-				"execution_count": 5
+				"execution_count": 13
 			}
 		]
 	}
