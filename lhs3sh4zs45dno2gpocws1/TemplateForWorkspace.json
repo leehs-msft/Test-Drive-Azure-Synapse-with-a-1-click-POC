@@ -1328,6 +1328,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "select top 10 * from nyctaxi.nyctaxi.trip",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "default",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Create Spark Table with NYC Taxi Data')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -1348,7 +1368,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f7f989cd-34d6-4040-89d1-017641906981"
+						"spark.autotune.trackingId": "e92d22bd-c6eb-451f-babd-4635c88aa2ad"
 					}
 				},
 				"metadata": {
@@ -1373,8 +1393,7 @@
 						"sparkVersion": "3.2",
 						"nodeCount": 10,
 						"cores": 16,
-						"memory": 112,
-						"automaticScaleJobs": false
+						"memory": 112
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -1395,7 +1414,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from azureml.opendatasets import NycTlcYellow\r\n",
 							"from datetime import datetime\r\n",
@@ -1581,7 +1599,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c01edace-88d7-4c74-8918-0cbf5a5670b8"
+						"spark.autotune.trackingId": "5da745d9-fe82-4474-b166-7605a6ec73e8"
 					}
 				},
 				"metadata": {
@@ -1606,15 +1624,13 @@
 						"sparkVersion": "2.4",
 						"nodeCount": 5,
 						"cores": 8,
-						"memory": 56,
-						"automaticScaleJobs": false
+						"memory": 56
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"# Predict NYC Taxi Tips using Spark ML and Azure Open Datasets\n",
 							"\n",
@@ -1627,7 +1643,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"import matplotlib.pyplot as plt\n",
 							"\n",
@@ -1650,7 +1665,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Ingest Data¶ \n",
 							"\n",
@@ -1659,7 +1673,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# Import NYC yellow cab data from Azure Open Datasets\n",
 							"from azureml.opendatasets import NycTlcYellow\n",
@@ -1678,7 +1691,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"#To make development easier, faster and less expensive downsample for now\n",
 							"sampled_taxi_df = nyc_tlc_df.sample(True, 0.001, seed=1234)"
@@ -1688,7 +1700,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Exploratory Data Analysis\n",
 							"\n",
@@ -1697,7 +1708,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"#The charting package needs a Pandas dataframe or numpy array do the conversion\n",
 							"sampled_taxi_pd_df = sampled_taxi_df.toPandas()\n",
@@ -1732,7 +1742,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Data Prep and Featurization\n",
 							"\n",
@@ -1744,7 +1753,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"taxi_df = sampled_taxi_df.select('totalAmount', 'fareAmount', 'tipAmount', 'paymentType', 'rateCodeId', 'passengerCount'\\\n",
 							"                                , 'tripDistance', 'tpepPickupDateTime', 'tpepDropoffDateTime'\\\n",
@@ -1767,7 +1775,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Data Prep and Featurization Part 2\n",
 							"\n",
@@ -1779,7 +1786,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"taxi_featurised_df = taxi_df.select('totalAmount', 'fareAmount', 'tipAmount', 'paymentType', 'passengerCount'\\\n",
 							"                                                , 'tripDistance', 'weekdayString', 'pickupHour','tripTimeSecs','tipped'\\\n",
@@ -1796,7 +1802,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Encoding\n",
 							"\n",
@@ -1810,7 +1815,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# The sample uses an algorithm that only works with numeric features convert them so they can be consumed\n",
 							"sI1 = StringIndexer(inputCol=\"trafficTimeBins\", outputCol=\"trafficTimeBinsIndex\"); \n",
@@ -1826,7 +1830,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Generation of Testing and Training Data Sets\n",
 							"Simple split, 70% for training and 30% for testing the model. Playing with this ratio may result in different models.\n",
@@ -1835,7 +1838,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# Decide on the split between training and testing data from the dataframe \n",
 							"trainingFraction = 0.7\n",
@@ -1850,7 +1852,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Train the Model\n",
 							"\n",
@@ -1859,7 +1860,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"## Create a new LR object for the model\n",
 							"logReg = LogisticRegression(maxIter=10, regParam=0.3, labelCol = 'tipped')\n",
@@ -1887,7 +1887,6 @@
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"## Evaluate and Visualize\n",
 							"\n",
@@ -1897,7 +1896,6 @@
 					},
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"## Plot the ROC curve, no need for pandas as this uses the modelSummary object\n",
 							"modelSummary = lrModel.stages[-1].summary\n",
@@ -1924,7 +1922,7 @@
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
-					"referenceName": "ws1sparklge",
+					"referenceName": "ws1sparkpool1",
 					"type": "BigDataPoolReference"
 				},
 				"sessionProperties": {
@@ -1937,7 +1935,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3db8914b-8d81-48d0-8425-bf77e97c984c"
+						"spark.autotune.trackingId": "f2d5d949-2174-4dbf-9029-daf833a86f8a"
 					}
 				},
 				"metadata": {
@@ -1951,18 +1949,18 @@
 						"name": "python"
 					},
 					"a365ComputeOptions": {
-						"id": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-synapse-ds/providers/Microsoft.Synapse/workspaces/lhs3sh4zs45dno2gpocws1/bigDataPools/ws1sparklge",
-						"name": "ws1sparklge",
+						"id": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-synapse-ds/providers/Microsoft.Synapse/workspaces/lhs3sh4zs45dno2gpocws1/bigDataPools/ws1sparkpool1",
+						"name": "ws1sparkpool1",
 						"type": "Spark",
-						"endpoint": "https://lhs3sh4zs45dno2gpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparklge",
+						"endpoint": "https://lhs3sh4zs45dno2gpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
 						"auth": {
 							"type": "AAD",
 							"authResource": "https://dev.azuresynapse.net"
 						},
-						"sparkVersion": "3.2",
-						"nodeCount": 10,
-						"cores": 16,
-						"memory": 112,
+						"sparkVersion": "2.4",
+						"nodeCount": 5,
+						"cores": 8,
+						"memory": 56,
 						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
@@ -1984,7 +1982,7 @@
 							"display(df.limit(10))"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -2010,7 +2008,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -2036,7 +2034,7 @@
 							"df.write.mode(\"overwrite\").saveAsTable(\"nyctaxi.trip\")"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -2063,7 +2061,7 @@
 							"display(df.limit(10))"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -2094,14 +2092,99 @@
 							"   ORDER BY PassengerCount\r\n",
 							"\"\"\") \r\n",
 							"display(df)\r\n",
-							"df.write.saveAsTable(\"nyctaxi.passengercountstats\")"
+							"df.write.mode(\"overwrite\").saveAsTable(\"nyctaxi.passengercountstats\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 14
 					}
 				]
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Notebook 1')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "ws1sparkpool1",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "56g",
+					"driverCores": 8,
+					"executorMemory": "56g",
+					"executorCores": 8,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "e07a4e00-fed0-43df-a508-b7f5d20cb882"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/3e8d69ca-fa7d-4a20-9f30-b1e0162ac1c6/resourceGroups/rg-lhs-synapse-ds/providers/Microsoft.Synapse/workspaces/lhs3sh4zs45dno2gpocws1/bigDataPools/ws1sparkpool1",
+						"name": "ws1sparkpool1",
+						"type": "Spark",
+						"endpoint": "https://lhs3sh4zs45dno2gpocws1.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/ws1sparkpool1",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "2.4",
+						"nodeCount": 5,
+						"cores": 8,
+						"memory": 56
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"df = spark.read.load('abfss://public@lhs3sh4zs45dno2gpoc.dfs.core.windows.net/trip-data.csv', format='csv',\r\n",
+							"## If header exists uncomment line below\r\n",
+							"header=True\r\n",
+							")\r\n",
+							"df.write.mode(\"overwrite\").saveAsTable(\"default.test\")"
+						],
+						"outputs": [],
+						"execution_count": 1
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/lhs3sh4zs45dno2gpocws1p1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlPools",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"collation": "SQL_Latin1_General_CP1_CI_AS",
+				"maxSizeBytes": 263882790666240,
+				"annotations": []
+			},
+			"dependsOn": [],
+			"location": "northeurope"
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/ws1sparkpool1')]",
@@ -2148,18 +2231,6 @@
 				"sparkVersion": "3.2",
 				"isComputeIsolationEnabled": false,
 				"sessionLevelPackagesEnabled": false,
-				"annotations": []
-			},
-			"dependsOn": [],
-			"location": "northeurope"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/lhs3sh4zs45dno2gpocws1p1')]",
-			"type": "Microsoft.Synapse/workspaces/sqlPools",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"collation": "SQL_Latin1_General_CP1_CI_AS",
-				"maxSizeBytes": 263882790666240,
 				"annotations": []
 			},
 			"dependsOn": [],
