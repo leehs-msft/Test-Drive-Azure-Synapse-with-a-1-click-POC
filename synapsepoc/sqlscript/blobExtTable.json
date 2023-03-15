@@ -1,0 +1,17 @@
+{
+	"name": "blobExtTable",
+	"properties": {
+		"content": {
+			"query": "\n-- Create the blob store as external data source\nCREATE EXTERNAL DATA SOURCE blobstore_ds\nWITH ( LOCATION = 'https://lhsblobstore.blob.core.windows.net/demoblob/'\n       )\n\n--Create an external file format for DELIMITED TEXT files\nCREATE EXTERNAL FILE FORMAT file_format_csv\nWITH (  \n    FORMAT_TYPE = DELIMITEDTEXT  \n    );  \n\n-- Create external table and define schema \nCREATE EXTERNAL TABLE driver_standings_ext_table\n(\n    driverStandingsId int,\n    raceId int,\n    driverId int,\n    points int,\n    position int,\n    positionText    varchar(10),\n    wins int\n)  \nWITH (\n    LOCATION = 'driver_standings.csv',\n    DATA_SOURCE = blobstore_ds,  \n    FILE_FORMAT = file_format_csv\n)\nGO\n\nSELECT TOP 10 * FROM driver_standings_ext_table",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "lhs3sh4zs45dno2gpocws1p1",
+				"poolName": "lhs3sh4zs45dno2gpocws1p1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
