@@ -1,0 +1,17 @@
+{
+	"name": "TaxiCreateExtTable",
+	"properties": {
+		"content": {
+			"query": "IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') \n\tCREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] \n\tWITH ( FORMAT_TYPE = PARQUET)\nGO\n\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'dlslhspocfs1_lhs3sh4zs45dno2gpoc_dfs_core_windows_net') \n\tCREATE EXTERNAL DATA SOURCE [dlslhspocfs1_lhs3sh4zs45dno2gpoc_dfs_core_windows_net] \n\tWITH (\n\t\tLOCATION = 'abfss://dlslhspocfs1@lhs3sh4zs45dno2gpoc.dfs.core.windows.net' \n\t)\nGO\n\nCREATE EXTERNAL TABLE dbo.fares (\n\t[tipped] bigint,\n\t[fareAmount] float,\n\t[paymentType] bigint,\n\t[passengerCount] bigint,\n\t[tripDistance] float,\n\t[tripTimeSecs] bigint,\n\t[pickupTimeBin] nvarchar(4000)\n\t)\n\tWITH (\n\tLOCATION = 'synapse/workspaces/LHS3SH4ZS45DNO2GPOCWS1/warehouse/nyc_taxi/part-00000-17b93cf7-5ee2-4b42-a1e3-ba1f2e907ddf-c000.snappy.parquet',\n\tDATA_SOURCE = [dlslhspocfs1_lhs3sh4zs45dno2gpoc_dfs_core_windows_net],\n\tFILE_FORMAT = [SynapseParquetFormat]\n\t)\nGO\n\n\nSELECT TOP 100 * FROM dbo.fares\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "db.test",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
