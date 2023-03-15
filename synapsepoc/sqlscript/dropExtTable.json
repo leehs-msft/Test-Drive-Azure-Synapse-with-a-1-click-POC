@@ -1,0 +1,17 @@
+{
+	"name": "dropExtTable",
+	"properties": {
+		"content": {
+			"query": "DROP EXTERNAL TABLE [dbo].[conStandings]",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "db.f1",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
