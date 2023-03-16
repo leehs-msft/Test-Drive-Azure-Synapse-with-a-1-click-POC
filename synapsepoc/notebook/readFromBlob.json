@@ -1,5 +1,5 @@
 {
-	"name": "Notebook 1",
+	"name": "readFromBlob",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "675314d5-0354-4a6c-b6b8-e37b2bd917b1"
+				"spark.autotune.trackingId": "68911449-6bd2-4ab4-b943-558cbfc6e191"
 			}
 		},
 		"metadata": {
@@ -53,7 +53,8 @@
 				"metadata": {
 					"microsoft": {
 						"language": "python"
-					}
+					},
+					"collapsed": false
 				},
 				"source": [
 					"%%pyspark\n",
@@ -63,16 +64,16 @@
 					"\n",
 					"sc = SparkSession.builder.getOrCreate()\n",
 					"token_library = sc._jvm.com.microsoft.azure.synapse.tokenlibrary.TokenLibrary\n",
-					"blob_sas_token = token_library.getConnectionString(\"lhsblobstore\")\n",
+					"# blob_sas_token = token_library.getConnectionString(\"lhsblobstore\")\n",
 					"\n",
 					"spark.conf.set(\n",
 					"    'fs.azure.sas.%s.%s.blob.core.windows.net' % (blob_container_name, blob_account_name),\n",
-					"    blob_sas_token)\n",
+					"    \"'?sv=2021-12-02&ss=bfqt&srt=co&sp=rwdlacupitfx&se=2023-03-16T19:02:20Z&st=2023-03-16T11:02:20Z&spr=https&sig=lf08%2F5k2nVbb7TQmi8U3nW1iXKpLz6Q%2FKRfdAY0t%2BE4%3D\")\n",
 					"df = spark.read.load('wasbs://demoblob@lhsblobstore.blob.core.windows.net/driver_standings.csv', format='csv', header=True)\n",
 					"\n",
 					"display(df.limit(10))"
 				],
-				"execution_count": 3
+				"execution_count": 4
 			}
 		]
 	}
