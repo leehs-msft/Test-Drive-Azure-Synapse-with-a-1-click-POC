@@ -1,0 +1,17 @@
+{
+	"name": "blobExtTableFolder",
+	"properties": {
+		"content": {
+			"query": "-- SECRET = '?sv=2021-12-02&ss=b&srt=co&sp=rwdlaciytfx&se=2023-03-24T23:32:45Z&st=2023-03-21T15:32:45Z&spr=https&sig=2FTPtowJCaAFrgi%2BjqXz02z6faJ%2FsmOhUC6cFv2pJFQ%3D'\n-- Created 21/3, expires 24/3\n\n-- Clear the external data source \nDROP EXTERNAL TABLE driver_standings_ext_table\nDROP EXTERNAL DATA SOURCE blobstore_ds\nDROP EXTERNAL FILE FORMAT file_format_csv\nDROP DATABASE SCOPED CREDENTIAL [synapseSAS]\n\n-- Create database scoped credential for managed ID\nCREATE DATABASE SCOPED CREDENTIAL [synapseSAS]\nWITH IDENTITY = 'SHARED ACCESS SIGNATURE',\nSECRET = '?sv=2021-12-02&ss=b&srt=co&sp=rwdlaciytfx&se=2023-03-24T23:32:45Z&st=2023-03-21T15:32:45Z&spr=https&sig=2FTPtowJCaAFrgi%2BjqXz02z6faJ%2FsmOhUC6cFv2pJFQ%3D'\nGO\n\n-- Create the blob store as external data source\nCREATE EXTERNAL DATA SOURCE blobstore_ds\nWITH ( \n    LOCATION = 'wasbs://import@lhsblobstore.blob.core.windows.net',\n    CREDENTIAL = synapseSAS,\n    TYPE = HADOOP\n    )\n\n--Create an external file format for DELIMITED TEXT files\nCREATE EXTERNAL FILE FORMAT file_format_csv\nWITH (  \n    FORMAT_TYPE = DELIMITEDTEXT,\n    FORMAT_OPTIONS (FIELD_TERMINATOR = ',')\n    )\n\n-- Create external table and define schema\nCREATE EXTERNAL TABLE br725Test_ext_table\n(\n    driverStandingsId varchar(100),\n    raceId varchar(100),\n    driverId varchar(100),\n    points varchar(100),\n    position_id varchar(100),\n    positionText    varchar(100),\n    wins varchar(100)\n)  \nWITH (\n    LOCATION = 'Archived/20230321/G650-BR725/Climb-Aircraft-EPS/19/',\n    DATA_SOURCE = blobstore_ds,  \n    FILE_FORMAT = file_format_csv\n)\nGO\n\nSELECT TOP 10 * FROM br725Test_ext_table",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "lhs3sh4zs45dno2gpocws1p1",
+				"poolName": "lhs3sh4zs45dno2gpocws1p1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
